@@ -7,23 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E345B7E1F3A3EDB001716E4 /* Commute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E345B7D1F3A3EDB001716E4 /* Commute.swift */; };
+		0E345B801F3A4090001716E4 /* DayOfWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E345B7F1F3A4090001716E4 /* DayOfWeek.swift */; };
+		0E42D05E1F3B920F00A7A2FF /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E42D05D1F3B920F00A7A2FF /* CoreDataManager.swift */; };
 		0ED6144D1F38F5FD00551D1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED6144C1F38F5FD00551D1B /* AppDelegate.swift */; };
-		0ED6144F1F38F5FD00551D1B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED6144E1F38F5FD00551D1B /* ViewController.swift */; };
+		0ED6144F1F38F5FD00551D1B /* CommuteListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED6144E1F38F5FD00551D1B /* CommuteListViewController.swift */; };
 		0ED614521F38F5FD00551D1B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0ED614501F38F5FD00551D1B /* Main.storyboard */; };
 		0ED614551F38F5FD00551D1B /* AverageMyCommute.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0ED614531F38F5FD00551D1B /* AverageMyCommute.xcdatamodeld */; };
 		0ED614571F38F5FD00551D1B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0ED614561F38F5FD00551D1B /* Assets.xcassets */; };
-		0ED6145A1F38F5FD00551D1B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0ED614581F38F5FD00551D1B /* LaunchScreen.storyboard */; };
+		0ED614641F38F94B00551D1B /* CommuteListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED614631F38F94B00551D1B /* CommuteListTableViewCell.swift */; };
+		0ED614661F38FA3700551D1B /* TableRowFooterAddNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED614651F38FA3700551D1B /* TableRowFooterAddNew.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E345B7D1F3A3EDB001716E4 /* Commute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Commute.swift; sourceTree = "<group>"; };
+		0E345B7F1F3A4090001716E4 /* DayOfWeek.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayOfWeek.swift; sourceTree = "<group>"; };
+		0E42D05D1F3B920F00A7A2FF /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		0E42D0601F3B97E700A7A2FF /* AverageMyCommute.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AverageMyCommute.entitlements; sourceTree = "<group>"; };
 		0ED614491F38F5FD00551D1B /* AverageMyCommute.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AverageMyCommute.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ED6144C1F38F5FD00551D1B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0ED6144E1F38F5FD00551D1B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		0ED6144E1F38F5FD00551D1B /* CommuteListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommuteListViewController.swift; sourceTree = "<group>"; };
 		0ED614511F38F5FD00551D1B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0ED614541F38F5FD00551D1B /* AverageMyCommute.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AverageMyCommute.xcdatamodel; sourceTree = "<group>"; };
 		0ED614561F38F5FD00551D1B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		0ED614591F38F5FD00551D1B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0ED6145B1F38F5FD00551D1B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0ED614631F38F94B00551D1B /* CommuteListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommuteListTableViewCell.swift; sourceTree = "<group>"; };
+		0ED614651F38FA3700551D1B /* TableRowFooterAddNew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableRowFooterAddNew.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +46,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E42D05F1F3B921400A7A2FF /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				0E42D05D1F3B920F00A7A2FF /* CoreDataManager.swift */,
+			);
+			name = Managers;
+			sourceTree = "<group>";
+		};
 		0ED614401F38F5FD00551D1B = {
 			isa = PBXGroup;
 			children = (
@@ -56,15 +73,36 @@
 		0ED6144B1F38F5FD00551D1B /* AverageMyCommute */ = {
 			isa = PBXGroup;
 			children = (
+				0E42D0601F3B97E700A7A2FF /* AverageMyCommute.entitlements */,
+				0E42D05F1F3B921400A7A2FF /* Managers */,
+				0ED614621F38F8FE00551D1B /* UITableView */,
+				0ED614611F38F6A800551D1B /* Controllers */,
 				0ED6144C1F38F5FD00551D1B /* AppDelegate.swift */,
-				0ED6144E1F38F5FD00551D1B /* ViewController.swift */,
 				0ED614501F38F5FD00551D1B /* Main.storyboard */,
 				0ED614561F38F5FD00551D1B /* Assets.xcassets */,
-				0ED614581F38F5FD00551D1B /* LaunchScreen.storyboard */,
 				0ED6145B1F38F5FD00551D1B /* Info.plist */,
 				0ED614531F38F5FD00551D1B /* AverageMyCommute.xcdatamodeld */,
+				0E345B7D1F3A3EDB001716E4 /* Commute.swift */,
+				0E345B7F1F3A4090001716E4 /* DayOfWeek.swift */,
 			);
 			path = AverageMyCommute;
+			sourceTree = "<group>";
+		};
+		0ED614611F38F6A800551D1B /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				0ED6144E1F38F5FD00551D1B /* CommuteListViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		0ED614621F38F8FE00551D1B /* UITableView */ = {
+			isa = PBXGroup;
+			children = (
+				0ED614651F38FA3700551D1B /* TableRowFooterAddNew.swift */,
+				0ED614631F38F94B00551D1B /* CommuteListTableViewCell.swift */,
+			);
+			name = UITableView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -101,6 +139,11 @@
 						CreatedOnToolsVersion = 8.3.1;
 						DevelopmentTeam = 8G223M87DR;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -127,7 +170,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0ED6145A1F38F5FD00551D1B /* LaunchScreen.storyboard in Resources */,
 				0ED614571F38F5FD00551D1B /* Assets.xcassets in Resources */,
 				0ED614521F38F5FD00551D1B /* Main.storyboard in Resources */,
 			);
@@ -140,9 +182,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0ED6144F1F38F5FD00551D1B /* ViewController.swift in Sources */,
+				0ED6144F1F38F5FD00551D1B /* CommuteListViewController.swift in Sources */,
 				0ED6144D1F38F5FD00551D1B /* AppDelegate.swift in Sources */,
+				0E345B7E1F3A3EDB001716E4 /* Commute.swift in Sources */,
+				0E345B801F3A4090001716E4 /* DayOfWeek.swift in Sources */,
+				0ED614641F38F94B00551D1B /* CommuteListTableViewCell.swift in Sources */,
 				0ED614551F38F5FD00551D1B /* AverageMyCommute.xcdatamodeld in Sources */,
+				0E42D05E1F3B920F00A7A2FF /* CoreDataManager.swift in Sources */,
+				0ED614661F38FA3700551D1B /* TableRowFooterAddNew.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -155,14 +202,6 @@
 				0ED614511F38F5FD00551D1B /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		0ED614581F38F5FD00551D1B /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0ED614591F38F5FD00551D1B /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -265,6 +304,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = AverageMyCommute/AverageMyCommute.entitlements;
 				DEVELOPMENT_TEAM = 8G223M87DR;
 				INFOPLIST_FILE = AverageMyCommute/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -278,6 +318,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = AverageMyCommute/AverageMyCommute.entitlements;
 				DEVELOPMENT_TEAM = 8G223M87DR;
 				INFOPLIST_FILE = AverageMyCommute/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -306,6 +347,7 @@
 				0ED614601F38F5FD00551D1B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

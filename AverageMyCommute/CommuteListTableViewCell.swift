@@ -20,19 +20,19 @@ class CommuteListTableViewCell : UITableViewCell {
                 
                 timeEndLabel.text = timeStringFrom(date : commuteItem.timeEnd! as Date)
                 
-                mondayLabel.textColor = commuteItem.monday ? .black : .red
+                mondayLabel.textColor = commuteItem.monday ? .black : .gray
                 
-                tuesdayLabel.textColor = commuteItem.tuesday ? .black : .red
+                tuesdayLabel.textColor = commuteItem.tuesday ? .black : .gray
                 
-                wednesdayLabel.textColor = commuteItem.wednesday ? .black : .red
+                wednesdayLabel.textColor = commuteItem.wednesday ? .black : .gray
                 
-                thursdayLabel.textColor = commuteItem.thursday ? .black : .red
+                thursdayLabel.textColor = commuteItem.thursday ? .black : .gray
                 
-                fridayLabel.textColor = commuteItem.friday ? .black : .red
+                fridayLabel.textColor = commuteItem.friday ? .black : .gray
                 
-                saturdayLabel.textColor = commuteItem.saturday ? .black : .red
+                saturdayLabel.textColor = commuteItem.saturday ? .black : .gray
 
-                sundayLabel.textColor = commuteItem.sunday ? .black : .red
+                sundayLabel.textColor = commuteItem.sunday ? .black : .gray
             }
         }
     }

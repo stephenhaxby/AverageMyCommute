@@ -64,22 +64,35 @@ class CommuteViewController : UIViewController {
         }
     }
     
-    @IBAction func addButtonPressed(_ sender: Any) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
+        guard let uiBarButtonItem = sender as? UIBarButtonItem else {
+            return
+        }
         
-        let commute =
-            NSEntityDescription.insertNewObject(forEntityName: "Commute", into: appDelegate.coreDataContext) as! Commute
-        
-        commute.id = UUID().uuidString
-        commute.timeStart = startTimeDatePicker.date as NSDate
-        commute.timeEnd = endTimeDatePicker.date as NSDate
-        commute.monday = monSegmentControl.selectedSegmentIndex == 0
-        commute.tuesday = tueSegmentControl.selectedSegmentIndex == 0
-        commute.wednesday = wedSegmentControl.selectedSegmentIndex == 0
-        commute.thursday = thurSegmentControl.selectedSegmentIndex == 0
-        commute.friday = friSegmentControl.selectedSegmentIndex == 0
-        commute.saturday = satSegmentControl.selectedSegmentIndex == 0
-        commute.sunday = sunSegmentControl.selectedSegmentIndex == 0
+        // check if you selected the save button
+        if addButton == uiBarButtonItem {
+            
+            let commute =
+                NSEntityDescription.insertNewObject(forEntityName: "Commute", into: appDelegate.coreDataContext) as! Commute
+    
+            commute.id = UUID().uuidString
+            commute.timeStart = startTimeDatePicker.date as NSDate
+            commute.timeEnd = endTimeDatePicker.date as NSDate
+            commute.monday = monSegmentControl.selectedSegmentIndex == 0
+            commute.tuesday = tueSegmentControl.selectedSegmentIndex == 0
+            commute.wednesday = wedSegmentControl.selectedSegmentIndex == 0
+            commute.thursday = thurSegmentControl.selectedSegmentIndex == 0
+            commute.friday = friSegmentControl.selectedSegmentIndex == 0
+            commute.saturday = satSegmentControl.selectedSegmentIndex == 0
+            commute.sunday = sunSegmentControl.selectedSegmentIndex == 0
+        }
     }
+    
+//    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+//        
+//        return true
+//    }
     
     func viewDefaultCommute() {
         

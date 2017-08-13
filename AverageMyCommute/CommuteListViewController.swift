@@ -23,36 +23,21 @@ class CommuteListViewController: UITableViewController, UIGestureRecognizerDeleg
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        let commute =
-            NSEntityDescription.insertNewObject(forEntityName: "Commute", into: appDelegate.coreDataContext) as! Commute
-        
-        commute.id = UUID().uuidString
-        commute.timeStart = Date() as NSDate
-        commute.timeEnd = Date() as NSDate
-        commute.monday = true
-        commute.tuesday = true
-        commute.wednesday = true
-        commute.thursday = true
-        commute.friday = true
-
-        commuteList.append(commute)
-        
-//        do {
-//            
-//            commuteList =
-//                (try appDelegate.coreDataContext.fetch(NSFetchRequest(entityName: "Commute")))
-//        }
-//        catch let error as NSError {
-//            
-//            print("Could not fetch \(error), \(error.userInfo)")
-//        }
+        commuteList = loadCommuteList()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    @IBAction func unwind(_ segue: UIStoryboardSegue) {
+        
+        commuteList = loadCommuteList()
+        
+        tableView.reloadData()
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return commuteList.count
@@ -178,6 +163,21 @@ class CommuteListViewController: UITableViewController, UIGestureRecognizerDeleg
             
             self.isEditing = true
         }
+    }
+    
+    func loadCommuteList() -> [Commute] {
+
+        do {
+
+            return
+                try appDelegate.coreDataContext.fetch(NSFetchRequest(entityName: "Commute"))
+        }
+        catch let error as NSError {
+
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+
+        return [Commute]()
     }
 }
 

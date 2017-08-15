@@ -35,7 +35,7 @@ class CommuteViewController : UIViewController {
     enum buttonTitles : String {
         
         case Add = "Add"
-        case Edit = "Edit"
+        case Save = "Save"
     }
     
     var appDelegate : AppDelegate {
@@ -54,7 +54,7 @@ class CommuteViewController : UIViewController {
      
         if let commuteToEdit = commute {
             
-            addButton.title = buttonTitles.Edit.rawValue
+            addButton.title = buttonTitles.Save.rawValue
             view(commute: commuteToEdit)
         }
         else {
@@ -64,28 +64,20 @@ class CommuteViewController : UIViewController {
         }
     }
     
+    //When moving away from this page
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
-        guard let uiBarButtonItem = sender as? UIBarButtonItem else {
-            return
-        }
-        
-        // check if you selected the save button
-        if addButton == uiBarButtonItem {
+        if sender as? UIBarButtonItem == addButton {
             
-            let commute =
-                NSEntityDescription.insertNewObject(forEntityName: "Commute", into: appDelegate.coreDataContext) as! Commute
-    
-            commute.id = UUID().uuidString
-            commute.timeStart = startTimeDatePicker.date as NSDate
-            commute.timeEnd = endTimeDatePicker.date as NSDate
-            commute.monday = monSegmentControl.selectedSegmentIndex == 0
-            commute.tuesday = tueSegmentControl.selectedSegmentIndex == 0
-            commute.wednesday = wedSegmentControl.selectedSegmentIndex == 0
-            commute.thursday = thurSegmentControl.selectedSegmentIndex == 0
-            commute.friday = friSegmentControl.selectedSegmentIndex == 0
-            commute.saturday = satSegmentControl.selectedSegmentIndex == 0
-            commute.sunday = sunSegmentControl.selectedSegmentIndex == 0
+            if addButton.title == buttonTitles.Add.rawValue {
+            
+                add()
+            }
+            else if addButton.title == buttonTitles.Save.rawValue
+                && commute != nil {
+                
+                save(newCommute : commute!)
+            }
         }
     }
     
@@ -104,8 +96,8 @@ class CommuteViewController : UIViewController {
         wedSegmentControl.selectedSegmentIndex = 0
         thurSegmentControl.selectedSegmentIndex = 0
         friSegmentControl.selectedSegmentIndex = 0
-        satSegmentControl.selectedSegmentIndex = 0
-        sunSegmentControl.selectedSegmentIndex = 0
+        satSegmentControl.selectedSegmentIndex = 1
+        sunSegmentControl.selectedSegmentIndex = 1
     }
     
     func view(commute : Commute?) {
@@ -127,5 +119,29 @@ class CommuteViewController : UIViewController {
             
             viewDefaultCommute()
         }
+    }
+    
+    func add() {
+        
+        let commute =
+            NSEntityDescription.insertNewObject(forEntityName: "Commute", into: appDelegate.coreDataContext) as! Commute
+        
+        commute.id = UUID().uuidString
+        
+        save(newCommute : commute)
+
+    }
+    
+    func save(newCommute : Commute) {
+        
+        newCommute.timeStart = startTimeDatePicker.date as NSDate
+        newCommute.timeEnd = endTimeDatePicker.date as NSDate
+        newCommute.monday = monSegmentControl.selectedSegmentIndex == 0
+        newCommute.tuesday = tueSegmentControl.selectedSegmentIndex == 0
+        newCommute.wednesday = wedSegmentControl.selectedSegmentIndex == 0
+        newCommute.thursday = thurSegmentControl.selectedSegmentIndex == 0
+        newCommute.friday = friSegmentControl.selectedSegmentIndex == 0
+        newCommute.saturday = satSegmentControl.selectedSegmentIndex == 0
+        newCommute.sunday = sunSegmentControl.selectedSegmentIndex == 0
     }
 }

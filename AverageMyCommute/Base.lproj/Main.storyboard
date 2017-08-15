@@ -145,13 +145,15 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Average My Commute" id="NB9-I4-Cfx">
-                        <barButtonItem key="leftBarButtonItem" title="Settings" id="Jwf-m9-WjI">
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="DwK-xL-n7k">
                             <connections>
-                                <segue destination="y8f-55-HO7" kind="show" identifier="SettingsSegue" id="3ra-qL-elV"/>
+                                <action selector="editButtonPressed:" destination="YUv-nw-soq" id="BIc-to-U3g"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="DwK-xL-n7k"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="editButton" destination="DwK-xL-n7k" id="MQP-T7-97M"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sVu-8T-wz4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -323,7 +325,4 @@
             <point key="canvasLocation" x="124" y="784"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="st3-oR-R4n"/>
-    </inferredMetricsTieBreakers>
 </document>

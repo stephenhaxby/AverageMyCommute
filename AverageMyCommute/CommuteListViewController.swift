@@ -11,6 +11,8 @@ import CoreData
 
 class CommuteListViewController: UITableViewController, UIGestureRecognizerDelegate {
 
+    @IBOutlet weak var editButton: UIBarButtonItem!
+    
     var commuteList : [Commute] = [Commute]()
     
     var appDelegate : AppDelegate {
@@ -29,6 +31,39 @@ class CommuteListViewController: UITableViewController, UIGestureRecognizerDeleg
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    @IBAction func editButtonPressed(_ sender: Any) {
+        
+        //let isEditing : Bool = self.isEditing
+        
+        self.isEditing = !self.isEditing
+        
+        setDoneButtonTitleText()
+
+        //TODO: Ordering for the commute list
+        
+//        if isEditing {
+//            
+//            commuteList = loadCommuteList()
+//            
+//            tableView.reloadData()
+//        }
+    }
+    
+    //When moving away from this page
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "AddNewCommuteItemSegue" {
+            
+            if let commute = sender as? Commute {
+                
+                // Setup the destination view controllers data
+                let commuteController = segue.destination as! CommuteViewController
+                commuteController.commute = commute
+            }
+        }
     }
     
     @IBAction func unwind(_ segue: UIStoryboardSegue) {
@@ -79,10 +114,10 @@ class CommuteListViewController: UITableViewController, UIGestureRecognizerDeleg
         return true
     }
     
-    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        
-        return UITableViewCellEditingStyle.delete
-    }
+//    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+//        
+//        return UITableViewCellEditingStyle.delete
+//    }
     
     override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         
@@ -110,20 +145,18 @@ class CommuteListViewController: UITableViewController, UIGestureRecognizerDeleg
         return true
     }
     
+//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+//        
+//    }
+    
     //This method is for the swipe left to delete
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+
+        let editAction : UITableViewRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.normal, title: "Edit", handler: edit)
         
-        self.isEditing = false
+        let deleteAction : UITableViewRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.destructive, title: "Delete", handler: delete)
         
-        if((indexPath as NSIndexPath).row < commuteList.count){
-            
-            let listItem : Commute = commuteList[(indexPath as NSIndexPath).row]
-            
-//            if storageFacade.removeReminder(listItem) {
-//                
-//                NotificationCenter.default.post(name: NSNotification.Name(rawValue: Constants.RefreshNotification), object: nil)
-//            }
-        }
+        return [deleteAction, editAction]
     }
     
 //    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -165,6 +198,33 @@ class CommuteListViewController: UITableViewController, UIGestureRecognizerDeleg
         }
     }
     
+    func edit(tableRowAction : UITableViewRowAction, forIndexPath indexPath : IndexPath) {
+        
+        self.isEditing = false
+        
+        if((indexPath as NSIndexPath).row < commuteList.count){
+            
+            let listItem : Commute = commuteList[(indexPath as NSIndexPath).row]
+            
+            // Manually perform the tableViewCellSegue to go to the edit page
+            performSegue(withIdentifier: "AddNewCommuteItemSegue", sender: listItem)
+        }
+    }
+    
+    func delete(tableRowAction : UITableViewRowAction, forIndexPath indexPath : IndexPath) {
+        
+        self.isEditing = false
+        
+        if((indexPath as NSIndexPath).row < commuteList.count){
+            
+            let listItem : Commute = commuteList[(indexPath as NSIndexPath).row]
+            
+            commuteList.remove(at: (indexPath as NSIndexPath).row)
+            
+            appDelegate.coreDataContext.delete(listItem)
+        }
+    }
+    
     func loadCommuteList() -> [Commute] {
 
         do {
@@ -178,6 +238,11 @@ class CommuteListViewController: UITableViewController, UIGestureRecognizerDeleg
         }
 
         return [Commute]()
+    }
+    
+    func setDoneButtonTitleText() {
+        
+        editButton.title = self.isEditing ? "Done" : "Edit"
     }
 }
 

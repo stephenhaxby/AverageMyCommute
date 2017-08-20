@@ -7,10 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E3033B91F4540630061F909 /* WorkoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3033B81F4540630061F909 /* WorkoutViewController.swift */; };
 		0E345B7E1F3A3EDB001716E4 /* Commute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E345B7D1F3A3EDB001716E4 /* Commute.swift */; };
 		0E345B801F3A4090001716E4 /* DayOfWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E345B7F1F3A4090001716E4 /* DayOfWeek.swift */; };
 		0E42D05E1F3B920F00A7A2FF /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E42D05D1F3B920F00A7A2FF /* CoreDataManager.swift */; };
 		0E42D0621F3BA38C00A7A2FF /* CommuteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E42D0611F3BA38C00A7A2FF /* CommuteViewController.swift */; };
+		0E464E9B1F46716000807323 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E464E9A1F46716000807323 /* HealthKit.framework */; };
+		0E464E9D1F46753800807323 /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E464E9C1F46753800807323 /* HealthManager.swift */; };
 		0ED6144D1F38F5FD00551D1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED6144C1F38F5FD00551D1B /* AppDelegate.swift */; };
 		0ED6144F1F38F5FD00551D1B /* CommuteListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED6144E1F38F5FD00551D1B /* CommuteListViewController.swift */; };
 		0ED614521F38F5FD00551D1B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0ED614501F38F5FD00551D1B /* Main.storyboard */; };
@@ -21,11 +24,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E3033B81F4540630061F909 /* WorkoutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutViewController.swift; sourceTree = "<group>"; };
 		0E345B7D1F3A3EDB001716E4 /* Commute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Commute.swift; sourceTree = "<group>"; };
 		0E345B7F1F3A4090001716E4 /* DayOfWeek.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayOfWeek.swift; sourceTree = "<group>"; };
 		0E42D05D1F3B920F00A7A2FF /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		0E42D0601F3B97E700A7A2FF /* AverageMyCommute.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AverageMyCommute.entitlements; sourceTree = "<group>"; };
 		0E42D0611F3BA38C00A7A2FF /* CommuteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommuteViewController.swift; sourceTree = "<group>"; };
+		0E464E9A1F46716000807323 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		0E464E9C1F46753800807323 /* HealthManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthManager.swift; sourceTree = "<group>"; };
 		0ED614491F38F5FD00551D1B /* AverageMyCommute.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AverageMyCommute.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ED6144C1F38F5FD00551D1B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ED6144E1F38F5FD00551D1B /* CommuteListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommuteListViewController.swift; sourceTree = "<group>"; };
@@ -42,6 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E464E9B1F46716000807323 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,8 +59,17 @@
 			isa = PBXGroup;
 			children = (
 				0E42D05D1F3B920F00A7A2FF /* CoreDataManager.swift */,
+				0E464E9C1F46753800807323 /* HealthManager.swift */,
 			);
 			name = Managers;
+			sourceTree = "<group>";
+		};
+		0E464E991F46716000807323 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0E464E9A1F46716000807323 /* HealthKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		0ED614401F38F5FD00551D1B = {
@@ -61,6 +77,7 @@
 			children = (
 				0ED6144B1F38F5FD00551D1B /* AverageMyCommute */,
 				0ED6144A1F38F5FD00551D1B /* Products */,
+				0E464E991F46716000807323 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -95,6 +112,7 @@
 			children = (
 				0ED6144E1F38F5FD00551D1B /* CommuteListViewController.swift */,
 				0E42D0611F3BA38C00A7A2FF /* CommuteViewController.swift */,
+				0E3033B81F4540630061F909 /* WorkoutViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -146,6 +164,9 @@
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
+							com.apple.HealthKit = {
+								enabled = 1;
+							};
 						};
 					};
 				};
@@ -187,7 +208,9 @@
 			files = (
 				0ED6144F1F38F5FD00551D1B /* CommuteListViewController.swift in Sources */,
 				0E42D0621F3BA38C00A7A2FF /* CommuteViewController.swift in Sources */,
+				0E3033B91F4540630061F909 /* WorkoutViewController.swift in Sources */,
 				0ED6144D1F38F5FD00551D1B /* AppDelegate.swift in Sources */,
+				0E464E9D1F46753800807323 /* HealthManager.swift in Sources */,
 				0E345B7E1F3A3EDB001716E4 /* Commute.swift in Sources */,
 				0E345B801F3A4090001716E4 /* DayOfWeek.swift in Sources */,
 				0ED614641F38F94B00551D1B /* CommuteListTableViewCell.swift in Sources */,

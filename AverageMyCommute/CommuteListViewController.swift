@@ -64,6 +64,15 @@ class CommuteListViewController: UITableViewController, UIGestureRecognizerDeleg
                 commuteController.commute = commute
             }
         }
+        else if segue.identifier == "CommuteItemSegue" {
+            
+            if let tableViewCell = sender as? CommuteListTableViewCell {
+             
+                // Setup the destination view controllers data
+                let workoutController = segue.destination as! WorkoutViewController
+                workoutController.commute = tableViewCell.commute
+            }
+        }
     }
     
     @IBAction func unwind(_ segue: UIStoryboardSegue) {

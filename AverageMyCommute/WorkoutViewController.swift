@@ -134,7 +134,18 @@ class WorkoutViewController : UIViewController {
                     
                     filteredWorkouts.removeFirst()
                     
-                    //self.populateAverateHeartRateFor(workouts : [HKWorkout])
+                    self.getHeartRateFor(workouts : filteredWorkouts) {
+                        
+                        (heartRate) -> Void in
+                        
+                        DispatchQueue.main.async(execute: { () -> Void in
+                            
+                            let formatter = NumberFormatter()
+                            formatter.maximumFractionDigits = 2
+                            
+                            self.avgHeartRateLabel.text = formatter.string(from: NSNumber(value: heartRate))
+                        })
+                    }
                     
                     DispatchQueue.main.async(execute: { () -> Void in
                         
@@ -298,7 +309,30 @@ class WorkoutViewController : UIViewController {
         }
     }
     
-    var workoutTotal = 0
+    var workoutTotal = 0.0
+    var totalHeartRate = 0.0
+    
+    func getHeartRateFor(workouts : [HKWorkout], completion : @escaping (Double) -> Void) {
+     
+        workoutTotal = 0
+        totalHeartRate = 0.0
+        
+        for workout in workouts {
+            
+            getHeartRateFor(workout: workout) {
+                
+                (heartRate) -> Void in
+                
+                self.workoutTotal += 1
+                self.totalHeartRate += heartRate
+                
+                if self.workoutTotal == Double(workouts.count) {
+                    
+                    completion(self.totalHeartRate / self.workoutTotal)
+                }
+            }
+        }
+    }
     
     func getDateComponentsFrom(totalSecondsDuration : Double, andNumberOfWorkouts numberOfWorkouts : Int) -> DateComponents {
         

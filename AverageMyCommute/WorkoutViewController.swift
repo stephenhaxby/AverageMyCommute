@@ -198,6 +198,8 @@ class WorkoutViewController : UIViewController {
         avgDistanceLabel.text = formatter.string(from: NSNumber(value: workoutStats.distance))
         
         avgTotalTimeLabel.text = "\(String(describing: workoutStats.time.hour ?? 0)):\(String(describing: workoutStats.time.minute ?? 0)):\(String(describing: workoutStats.time.second ?? 0))"
+        
+        avgSpeedLabel.text = formatter.string(from: NSNumber(value: workoutStats.speed))
     }
     
     func populateMostRecent(workoutStats : WorkOutAverages) {
@@ -210,21 +212,8 @@ class WorkoutViewController : UIViewController {
         distanceLabel.text = formatter.string(from: NSNumber(value: workoutStats.distance))
         
         totalTimeLabel.text = "\(String(describing: workoutStats.time.hour ?? 0)):\(String(describing: workoutStats.time.minute ?? 0)):\(String(describing: workoutStats.time.second ?? 0))"
-    }
-    
-    func readHeartBeat() {
         
-        //healthManager.readHeartRateFor(startDate: <#T##Date#>, toEndDate: <#T##Date#>, completion: <#T##([AnyObject]?, Error?) -> Void#>)
-        
-//        healthManager.readRunningWorkOuts(completion: {
-//            
-//            (results, error) -> Void in
-//            
-//            if error != nil {
-//                
-//                //TODO: Display error
-//            }
-//        }
+        speedLabel.text = formatter.string(from: NSNumber(value: workoutStats.speed))
     }
     
     func clearMostRecent() {
@@ -256,7 +245,7 @@ class WorkoutViewController : UIViewController {
     
     func getWorkoutAverages(workouts : [HKWorkout]) -> WorkOutAverages {
         
-        var averages = WorkOutAverages(calories: 0, distance: 0, time: DateComponents())
+        var averages = WorkOutAverages(calories: 0, distance: 0, time: DateComponents(), speed: 0)
 
         var totalSecondsDuration = 0.0
         var totalDistance = 0.0
@@ -273,14 +262,12 @@ class WorkoutViewController : UIViewController {
             
             let distance : Double? = workout.totalDistance?.doubleValue(for: HKUnit.meter())
             totalDistance += distance == nil ? 0 : distance!
-            
-            // Heart Rate must be seperate
-            // Speed must be seperate too...
         }
         
         averages.calories = totalCalories / Double(workouts.count)
         averages.distance = (totalDistance / 1000) / Double(workouts.count)
         averages.time = getDateComponentsFrom(totalSecondsDuration: totalSecondsDuration, andNumberOfWorkouts: workouts.count)
+        averages.speed = (totalDistance / 1000) / Double(workouts.count) / ((totalSecondsDuration / Double(workouts.count)) / 3600 )
         
         return averages
     }
@@ -351,12 +338,6 @@ class WorkoutViewController : UIViewController {
         return dateComponents
     }
     
-    //SPEED
-    
-    //HEART RATE
-    //            let heartRateUnit = HKUnit(from : "count/min")
-    //            quantity.doubleValueForUnit(heartRateUnit))
-    
     func secondsToHoursMinutesSeconds (seconds : Int) -> (Int, Int, Int) {
         
         return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
@@ -369,5 +350,7 @@ class WorkoutViewController : UIViewController {
         var distance : Double
         
         var time : DateComponents
+        
+        var speed : Double
     }
 }

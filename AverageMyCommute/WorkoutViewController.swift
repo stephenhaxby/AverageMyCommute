@@ -11,8 +11,6 @@ import HealthKit
 
 class WorkoutViewController : UIViewController {
     
-    @IBOutlet weak var activeCaloriesLabel: UILabel!
-    
     @IBOutlet weak var totalCaloriesLabel: UILabel!
     
     @IBOutlet weak var distanceLabel: UILabel!
@@ -24,8 +22,6 @@ class WorkoutViewController : UIViewController {
     @IBOutlet weak var speedLabel: UILabel!
     
     //------------------------------------------------
-    
-    @IBOutlet weak var avgActiveCaloriesLabel: UILabel!
     
     @IBOutlet weak var avgTotalCalories: UILabel!
     
@@ -96,7 +92,6 @@ class WorkoutViewController : UIViewController {
                     let commuteStartDate : Date = self.getDateFromComponents(commuteStartDateComponents)
                     let commuteEndDate : Date = self.getDateFromComponents(commuteEndDateComponents)
                     
-                    //TODO: THIS IS BACKWARDS!
                     return (commuteStartDate...commuteEndDate).contains(workout.startDate)
                 })
                 
@@ -113,6 +108,21 @@ class WorkoutViewController : UIViewController {
             
                 let mostRecentWorkout : HKWorkout = filteredWorkouts[0]
             
+                // Populate Heart Rate
+                self.getHeartRateFor(workout : mostRecentWorkout) {
+                
+                    (heartRate) -> Void in
+                    
+                        DispatchQueue.main.async(execute: { () -> Void in
+                            
+                            let formatter = NumberFormatter()
+                            formatter.maximumFractionDigits = 2
+                            
+                            self.heartRateLabel.text = formatter.string(from: NSNumber(value: heartRate))
+                    })
+                }
+            
+                // Populate Workout data
                 DispatchQueue.main.async(execute: { () -> Void in
                     
                     let workoutStats : WorkOutAverages = self.getWorkoutAverages(workouts: [mostRecentWorkout])
@@ -123,6 +133,8 @@ class WorkoutViewController : UIViewController {
                 if filteredWorkouts.count > 1 {
                     
                     filteredWorkouts.removeFirst()
+                    
+                    //self.populateAverateHeartRateFor(workouts : [HKWorkout])
                     
                     DispatchQueue.main.async(execute: { () -> Void in
                         
@@ -206,11 +218,28 @@ class WorkoutViewController : UIViewController {
     
     func clearMostRecent() {
         
+        totalCaloriesLabel.text = "-"
         
+        distanceLabel.text = "-"
+        
+        totalTimeLabel.text = "-"
+        
+        heartRateLabel.text = "-"
+        
+        speedLabel.text = "-"
     }
     
     func clearAverages() {
         
+        avgTotalCalories.text = "-"
+        
+        avgDistanceLabel.text = "-"
+        
+        avgTotalTimeLabel.text = "-"
+        
+        avgHeartRateLabel.text = "-"
+        
+        avgSpeedLabel.text = "-"
         
     }
     
@@ -244,6 +273,32 @@ class WorkoutViewController : UIViewController {
         
         return averages
     }
+    
+    func getHeartRateFor(workout : HKWorkout, completion : @escaping (Double) -> Void) {
+        
+        healthManager.readHeartRateFor(startDate: workout.startDate, toEndDate: workout.endDate) {
+            
+            (results, error) -> Void in
+            
+            if error != nil {
+                
+                //TODO: Display error
+            }
+            
+            let heartRateSamples = results as! [HKQuantitySample]
+            
+            var totalHeartRate = 0.0
+            
+            for heartRate in heartRateSamples {
+                
+                totalHeartRate += heartRate.quantity.doubleValue(for: HKUnit(from : "count/s"))
+            }
+            
+            completion((totalHeartRate / Double(heartRateSamples.count)) * 60.0)
+        }
+    }
+    
+    var workoutTotal = 0
     
     func getDateComponentsFrom(totalSecondsDuration : Double, andNumberOfWorkouts numberOfWorkouts : Int) -> DateComponents {
         

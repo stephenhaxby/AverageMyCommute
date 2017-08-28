@@ -117,6 +117,7 @@ class WorkoutViewController : UIViewController {
                             
                             let formatter = NumberFormatter()
                             formatter.maximumFractionDigits = 2
+                            formatter.minimumIntegerDigits = 1
                             
                             self.heartRateLabel.text = formatter.string(from: NSNumber(value: heartRate))
                     })
@@ -142,8 +143,43 @@ class WorkoutViewController : UIViewController {
                             
                             let formatter = NumberFormatter()
                             formatter.maximumFractionDigits = 2
+                            formatter.minimumIntegerDigits = 1
                             
                             self.avgHeartRateLabel.text = formatter.string(from: NSNumber(value: heartRate))
+                            
+                            // Comopare to most recent
+                            if let mostRecentHeartRate : Double = self.getDoubleFrom(string: self.heartRateLabel.text!) {
+                                
+                                let difference = mostRecentHeartRate - heartRate
+                                var differenceLabel : String = formatter.string(from: NSNumber(value: difference))!
+                                
+                                let newHeartRateLabel = NSMutableAttributedString(string: self.heartRateLabel.text!)
+                                
+                                if heartRate > mostRecentHeartRate {
+                                    
+                                    differenceLabel = " +\(differenceLabel)"
+                                    let differenceAttributedString = NSMutableAttributedString(string: differenceLabel)
+                                    differenceAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.green, range: NSRange(location:0,length:differenceLabel.characters.count))
+                                    
+                                    newHeartRateLabel.append(differenceAttributedString)
+                                    self.heartRateLabel.text = nil
+                                    self.heartRateLabel.attributedText = newHeartRateLabel
+                                }
+                                else if heartRate < mostRecentHeartRate {
+                                    
+                                    differenceLabel = " -\(differenceLabel)"
+                                    let differenceAttributedString = NSMutableAttributedString(string: differenceLabel)
+                                    differenceAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.red, range: NSRange(location:0,length:differenceLabel.characters.count))
+                                    
+                                    newHeartRateLabel.append(differenceAttributedString)
+                                    self.heartRateLabel.text = nil
+                                    self.heartRateLabel.attributedText = newHeartRateLabel
+                                }
+                                else {
+                                    
+                                    self.heartRateLabel.textColor = UIColor.black
+                                }
+                            }
                         })
                     }
                     
@@ -153,6 +189,8 @@ class WorkoutViewController : UIViewController {
 
                         self.populate(workoutStats: workOutAverages)
                         
+                        // Compare to most recent
+                        self.setMostRecentWorkoutHighlightsFor(workOutAverages: workOutAverages)
                     })
                 }
                 else {
@@ -165,6 +203,115 @@ class WorkoutViewController : UIViewController {
                     //TODO: No Average to show, only show top section results
                 }
         })
+    }
+    
+    func setMostRecentWorkoutHighlightsFor(workOutAverages : WorkOutAverages) {
+
+        setMostRecentLabelColorFor(label: totalCaloriesLabel, withDouble: workOutAverages.calories)
+        
+        setMostRecentLabelColorFor(label: distanceLabel, withDouble: workOutAverages.distance)
+        
+        setMostRecentLabelColorFor(label: speedLabel, withDouble: workOutAverages.speed)
+
+        setMostRecentLabelColorFor(label: totalTimeLabel, withDateComponents: workOutAverages.time)
+
+    }
+    
+    func dateIsBeforeDate(_ date1 : Date, date2 : Date) -> Bool {
+        
+        let dateCompareResult = date1.compare(date2)
+        
+        return dateCompareResult == ComparisonResult.orderedDescending
+    }
+    
+    func dateIsAfterDate(_ date1 : Date, date2 : Date) -> Bool {
+        
+        let dateCompareResult = date1.compare(date2)
+        
+        return dateCompareResult == ComparisonResult.orderedAscending
+    }
+    
+    func setMostRecentLabelColorFor(label : UILabel, withDateComponents value : DateComponents) {
+        
+        //TODO: Time comparason
+        
+        let mostRecentDateComponents = getDateComponentsFrom(string: label.text!)
+        
+        let mostRecentSeconds = dateComponentsToSeconds(dateComponents: mostRecentDateComponents)
+        let averageSeconds = dateComponentsToSeconds(dateComponents: value)
+        
+        if averageSeconds > mostRecentSeconds {
+            
+            label.textColor = UIColor.green
+        }
+        else if averageSeconds < mostRecentSeconds {
+            
+            label.textColor = UIColor.red
+        }
+        else {
+            
+            label.textColor = UIColor.black
+        }
+    }
+    
+    func setMostRecentLabelColorFor(label : UILabel, withDouble value : Double) {
+        
+        if let mostRecentValue : Double = getDoubleFrom(string : label.text!) {
+
+            let formatter = NumberFormatter()
+            formatter.maximumFractionDigits = 2
+            formatter.minimumIntegerDigits = 1
+            
+            let difference = mostRecentValue - value
+            var differenceLabel : String = formatter.string(from: NSNumber(value: difference))!
+            
+            let newLabel = NSMutableAttributedString(string: label.text!)
+            
+            if value > mostRecentValue {
+                
+                differenceLabel = " +\(differenceLabel)"
+                let differenceAttributedString = NSMutableAttributedString(string: differenceLabel)
+                differenceAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.green, range: NSRange(location:0,length:differenceLabel.characters.count))
+                
+                newLabel.append(differenceAttributedString)
+                label.text = nil
+                label.attributedText = newLabel
+            }
+            else if value < mostRecentValue {
+                
+                differenceLabel = " -\(differenceLabel)"
+                let differenceAttributedString = NSMutableAttributedString(string: differenceLabel)
+                differenceAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.red, range: NSRange(location:0,length:differenceLabel.characters.count))
+                
+                newLabel.append(differenceAttributedString)
+                label.text = nil
+                label.attributedText = newLabel
+            }
+            else {
+                
+                self.heartRateLabel.textColor = UIColor.black
+            }
+        }
+    }
+    
+    func getDateComponentsFrom(string : String) -> DateComponents {
+        
+        let calendar = Calendar.current
+        var dateComponents : DateComponents = DateComponents()
+        
+        dateComponents.calendar = calendar
+        dateComponents.hour = Int(String(string.characters.dropLast(6)))
+        dateComponents.minute = Int(String(String(string.characters.dropFirst(2)).characters.dropLast(3)))
+        dateComponents.second = Int(String(string.characters.dropFirst(5)))
+        
+        return dateComponents
+    }
+    
+    func getDoubleFrom(string : String) -> Double? {
+        
+        let formatter = NumberFormatter()
+        
+        return formatter.number(from: string) as? Double
     }
     
     func getDateFromComponents(_ components : DateComponents) -> Date {
@@ -192,6 +339,7 @@ class WorkoutViewController : UIViewController {
         
         let formatter = NumberFormatter()
         formatter.maximumFractionDigits = 2
+        formatter.minimumIntegerDigits = 1
         
         avgTotalCalories.text = formatter.string(from: NSNumber(value: workoutStats.calories))
         
@@ -206,6 +354,7 @@ class WorkoutViewController : UIViewController {
 
         let formatter = NumberFormatter()
         formatter.maximumFractionDigits = 2
+        formatter.minimumIntegerDigits = 1
         
         totalCaloriesLabel.text = formatter.string(from: NSNumber(value: workoutStats.calories))
         
@@ -254,7 +403,7 @@ class WorkoutViewController : UIViewController {
         // sum all hours & minutes together
         for workout in workouts {
 
-            let totalEnergyBurned : Double? = workout.totalEnergyBurned?.doubleValue(for: HKUnit.kilocalorie())
+            let totalEnergyBurned : Double? = workout.totalEnergyBurned?.doubleValue(for: HKUnit.jouleUnit(with: HKMetricPrefix.kilo))
             
             totalCalories += totalEnergyBurned == nil ? 0 : totalEnergyBurned!
             
@@ -338,7 +487,18 @@ class WorkoutViewController : UIViewController {
         return dateComponents
     }
     
-    func secondsToHoursMinutesSeconds (seconds : Int) -> (Int, Int, Int) {
+    func dateComponentsToSeconds(dateComponents : DateComponents) -> Int {
+        
+        var totalSeconds = 0
+        
+        totalSeconds += dateComponents.second ?? 0
+        totalSeconds += (dateComponents.minute ?? 0) * 60
+        totalSeconds += (dateComponents.hour ?? 0) * 3600
+        
+        return totalSeconds
+    }
+    
+    func secondsToHoursMinutesSeconds(seconds : Int) -> (Int, Int, Int) {
         
         return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
     }

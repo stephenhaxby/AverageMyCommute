@@ -157,7 +157,7 @@ class WorkoutViewController : UIViewController {
                                 
                                 if heartRate > mostRecentHeartRate {
                                     
-                                    differenceLabel = " +\(differenceLabel)"
+                                    differenceLabel = " \(differenceLabel)"
                                     let differenceAttributedString = NSMutableAttributedString(string: differenceLabel)
                                     differenceAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.green, range: NSRange(location:0,length:differenceLabel.characters.count))
                                     
@@ -167,7 +167,7 @@ class WorkoutViewController : UIViewController {
                                 }
                                 else if heartRate < mostRecentHeartRate {
                                     
-                                    differenceLabel = " -\(differenceLabel)"
+                                    differenceLabel = " +\(differenceLabel)"
                                     let differenceAttributedString = NSMutableAttributedString(string: differenceLabel)
                                     differenceAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.red, range: NSRange(location:0,length:differenceLabel.characters.count))
                                     
@@ -269,7 +269,7 @@ class WorkoutViewController : UIViewController {
             
             if value > mostRecentValue {
                 
-                differenceLabel = " +\(differenceLabel)"
+                differenceLabel = " \(differenceLabel)"
                 let differenceAttributedString = NSMutableAttributedString(string: differenceLabel)
                 differenceAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.green, range: NSRange(location:0,length:differenceLabel.characters.count))
                 
@@ -279,7 +279,7 @@ class WorkoutViewController : UIViewController {
             }
             else if value < mostRecentValue {
                 
-                differenceLabel = " -\(differenceLabel)"
+                differenceLabel = " +\(differenceLabel)"
                 let differenceAttributedString = NSMutableAttributedString(string: differenceLabel)
                 differenceAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.red, range: NSRange(location:0,length:differenceLabel.characters.count))
                 

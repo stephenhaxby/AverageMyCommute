@@ -35,6 +35,10 @@ class WorkoutViewController : UIViewController {
     
     //------------------------------------------------
     
+    @IBOutlet weak var commuteHeadingLabel: UILabel!
+    
+    @IBOutlet weak var commuteHeadingDaysLabel: UILabel!
+    
     var commute : Commute?
     
     let healthManager = HealthManager.sharedInstance
@@ -43,6 +47,19 @@ class WorkoutViewController : UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
      
+        commuteHeadingLabel.text = "\(Utility.timeStringFrom(date : commute!.timeStart! as Date)) - \(Utility.timeStringFrom(date : commute!.timeEnd! as Date))"
+        
+        var headingDays = String()
+        headingDays += (commute!.monday) ? "Mon " : ""
+        headingDays += (commute!.tuesday) ? "Tue " : ""
+        headingDays += (commute!.wednesday) ? "Wed " : ""
+        headingDays += (commute!.thursday) ? "Thur " : ""
+        headingDays += (commute!.friday) ? "Fri " : ""
+        headingDays += (commute!.saturday) ? "Sat " : ""
+        headingDays += (commute!.sunday) ? "Sun " : ""
+        
+        commuteHeadingDaysLabel.text = headingDays
+        
         healthManager.authorizeHealthKit(completion: {
             
             (success, error) -> Void in
@@ -115,11 +132,7 @@ class WorkoutViewController : UIViewController {
                     
                         DispatchQueue.main.async(execute: { () -> Void in
                             
-                            let formatter = NumberFormatter()
-                            formatter.maximumFractionDigits = 2
-                            formatter.minimumIntegerDigits = 1
-                            
-                            self.heartRateLabel.text = formatter.string(from: NSNumber(value: heartRate))
+                            self.heartRateLabel.text = self.getFormattedDoubleFor(value: heartRate)
                     })
                 }
             
@@ -141,25 +154,23 @@ class WorkoutViewController : UIViewController {
                         
                         DispatchQueue.main.async(execute: { () -> Void in
                             
-                            let formatter = NumberFormatter()
-                            formatter.maximumFractionDigits = 2
-                            formatter.minimumIntegerDigits = 1
-                            
-                            self.avgHeartRateLabel.text = formatter.string(from: NSNumber(value: heartRate))
+                            self.avgHeartRateLabel.text = self.getFormattedDoubleFor(value: heartRate)
                             
                             // Comopare to most recent
                             if let mostRecentHeartRate : Double = self.getDoubleFrom(string: self.heartRateLabel.text!) {
                                 
                                 let difference = mostRecentHeartRate - heartRate
-                                var differenceLabel : String = formatter.string(from: NSNumber(value: difference))!
+                                var differenceLabel : String = self.getFormattedDoubleFor(value: difference)
                                 
                                 let newHeartRateLabel = NSMutableAttributedString(string: self.heartRateLabel.text!)
                                 
                                 if heartRate > mostRecentHeartRate {
                                     
-                                    differenceLabel = " \(differenceLabel)"
+                                    differenceLabel = "  \(differenceLabel)"
+                                    let labelRange = NSRange(location:0,length:differenceLabel.characters.count)
                                     let differenceAttributedString = NSMutableAttributedString(string: differenceLabel)
                                     differenceAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.green, range: NSRange(location:0,length:differenceLabel.characters.count))
+                                    differenceAttributedString.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 20.0, weight: UIFontWeightBold), range: labelRange)
                                     
                                     newHeartRateLabel.append(differenceAttributedString)
                                     self.heartRateLabel.text = nil
@@ -167,9 +178,11 @@ class WorkoutViewController : UIViewController {
                                 }
                                 else if heartRate < mostRecentHeartRate {
                                     
-                                    differenceLabel = " +\(differenceLabel)"
+                                    differenceLabel = "  +\(differenceLabel)"
+                                    let labelRange = NSRange(location:0,length:differenceLabel.characters.count)
                                     let differenceAttributedString = NSMutableAttributedString(string: differenceLabel)
                                     differenceAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.red, range: NSRange(location:0,length:differenceLabel.characters.count))
+                                    differenceAttributedString.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 20.0, weight: UIFontWeightBold), range: labelRange)
                                     
                                     newHeartRateLabel.append(differenceAttributedString)
                                     self.heartRateLabel.text = nil
@@ -240,38 +253,62 @@ class WorkoutViewController : UIViewController {
         let mostRecentSeconds = dateComponentsToSeconds(dateComponents: mostRecentDateComponents)
         let averageSeconds = dateComponentsToSeconds(dateComponents: value)
         
+        
+        let difference = mostRecentSeconds - averageSeconds
+        //var differenceLabel : String = getFormattedIntFor(value: difference)
+        
+        let differenceDateComponents = getDateComponentsFrom(totalSecondsDuration: abs(Double(difference)), andNumberOfWorkouts: 1)
+        var differenceLabel = "\(getFormattedIntFor(value: differenceDateComponents.minute ?? 0)):\(getFormattedIntFor(value: differenceDateComponents.second ?? 0))"
+        
+        let newLabel = NSMutableAttributedString(string: label.text!)
+        
         if averageSeconds > mostRecentSeconds {
             
-            label.textColor = UIColor.green
+            differenceLabel = "  -\(differenceLabel)"
+            let labelRange = NSRange(location:0,length:differenceLabel.characters.count)
+            let differenceAttributedString = NSMutableAttributedString(string: differenceLabel)
+            differenceAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.green, range: labelRange)
+            //differenceAttributedString.addAttribute(NSFontAttributeName, value: UIFont.withsize(22.0), range: NSRange(location: 0, differenceLabel.characters.count))
+            differenceAttributedString.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 20.0, weight: UIFontWeightBold), range: labelRange)
+            
+            newLabel.append(differenceAttributedString)
+            label.text = nil
+            label.attributedText = newLabel
         }
         else if averageSeconds < mostRecentSeconds {
             
-            label.textColor = UIColor.red
+            differenceLabel = "  +\(differenceLabel)"
+            let labelRange = NSRange(location:0,length:differenceLabel.characters.count)
+            let differenceAttributedString = NSMutableAttributedString(string: differenceLabel)
+            differenceAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.red, range: labelRange)
+            differenceAttributedString.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 20.0, weight: UIFontWeightBold), range: labelRange)
+            
+            newLabel.append(differenceAttributedString)
+            label.text = nil
+            label.attributedText = newLabel
         }
         else {
             
-            label.textColor = UIColor.black
+            self.heartRateLabel.textColor = UIColor.black
         }
     }
     
     func setMostRecentLabelColorFor(label : UILabel, withDouble value : Double) {
         
         if let mostRecentValue : Double = getDoubleFrom(string : label.text!) {
-
-            let formatter = NumberFormatter()
-            formatter.maximumFractionDigits = 2
-            formatter.minimumIntegerDigits = 1
             
             let difference = mostRecentValue - value
-            var differenceLabel : String = formatter.string(from: NSNumber(value: difference))!
+            var differenceLabel : String = getFormattedDoubleFor(value: difference)
             
             let newLabel = NSMutableAttributedString(string: label.text!)
             
             if value > mostRecentValue {
                 
-                differenceLabel = " \(differenceLabel)"
+                differenceLabel = "  \(differenceLabel)"
+                let labelRange = NSRange(location:0,length:differenceLabel.characters.count)
                 let differenceAttributedString = NSMutableAttributedString(string: differenceLabel)
-                differenceAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.green, range: NSRange(location:0,length:differenceLabel.characters.count))
+                differenceAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.green, range: labelRange)
+                differenceAttributedString.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 20.0, weight: UIFontWeightBold), range: labelRange)
                 
                 newLabel.append(differenceAttributedString)
                 label.text = nil
@@ -279,9 +316,11 @@ class WorkoutViewController : UIViewController {
             }
             else if value < mostRecentValue {
                 
-                differenceLabel = " +\(differenceLabel)"
+                differenceLabel = "  +\(differenceLabel)"
+                let labelRange = NSRange(location:0,length:differenceLabel.characters.count)
                 let differenceAttributedString = NSMutableAttributedString(string: differenceLabel)
-                differenceAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.red, range: NSRange(location:0,length:differenceLabel.characters.count))
+                differenceAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.red, range: labelRange)
+                differenceAttributedString.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 20.0, weight: UIFontWeightBold), range: labelRange)
                 
                 newLabel.append(differenceAttributedString)
                 label.text = nil
@@ -337,32 +376,54 @@ class WorkoutViewController : UIViewController {
     
     func populate(workoutStats : WorkOutAverages) {
         
-        let formatter = NumberFormatter()
-        formatter.maximumFractionDigits = 2
-        formatter.minimumIntegerDigits = 1
+        avgTotalCalories.text = getFormattedDoubleFor(value: workoutStats.calories)
         
-        avgTotalCalories.text = formatter.string(from: NSNumber(value: workoutStats.calories))
+        avgDistanceLabel.text = getFormattedDoubleFor(value: workoutStats.distance)
         
-        avgDistanceLabel.text = formatter.string(from: NSNumber(value: workoutStats.distance))
+        avgTotalTimeLabel.text = "\(String(describing: workoutStats.time.hour ?? 0)):\(getFormattedIntFor(value: workoutStats.time.minute ?? 0)):\(getFormattedIntFor(value: workoutStats.time.second ?? 0))"
         
-        avgTotalTimeLabel.text = "\(String(describing: workoutStats.time.hour ?? 0)):\(String(describing: workoutStats.time.minute ?? 0)):\(String(describing: workoutStats.time.second ?? 0))"
-        
-        avgSpeedLabel.text = formatter.string(from: NSNumber(value: workoutStats.speed))
+        avgSpeedLabel.text = getFormattedDoubleFor(value: workoutStats.speed)
     }
     
     func populateMostRecent(workoutStats : WorkOutAverages) {
-
+       
+        totalCaloriesLabel.text = getFormattedDoubleFor(value: workoutStats.calories)
+        
+        distanceLabel.text = getFormattedDoubleFor(value: workoutStats.distance)
+        
+        totalTimeLabel.text = "\(String(describing: workoutStats.time.hour ?? 0)):\(getFormattedIntFor(value: workoutStats.time.minute)):\(getFormattedIntFor(value: workoutStats.time.second))"
+        
+        speedLabel.text = getFormattedDoubleFor(value: workoutStats.speed)
+    }
+    
+    func getFormattedIntFor(value: Int?) -> String {
+        
+        if let inValue : Int = value {
+            
+            if inValue <= 9 && inValue >= 0 {
+                
+                return "0\(inValue)"
+            }
+            
+            if inValue <= -9 && inValue >= -1 {
+                
+                return "-0\(abs(inValue))"
+            }
+            
+            return String(describing: inValue)
+        }
+        
+        return "-"
+    }
+    
+    func getFormattedDoubleFor(value : Double) -> String {
+        
         let formatter = NumberFormatter()
         formatter.maximumFractionDigits = 2
+        formatter.minimumFractionDigits = 2
         formatter.minimumIntegerDigits = 1
         
-        totalCaloriesLabel.text = formatter.string(from: NSNumber(value: workoutStats.calories))
-        
-        distanceLabel.text = formatter.string(from: NSNumber(value: workoutStats.distance))
-        
-        totalTimeLabel.text = "\(String(describing: workoutStats.time.hour ?? 0)):\(String(describing: workoutStats.time.minute ?? 0)):\(String(describing: workoutStats.time.second ?? 0))"
-        
-        speedLabel.text = formatter.string(from: NSNumber(value: workoutStats.speed))
+        return formatter.string(from: NSNumber(value: value)) ?? "-"
     }
     
     func clearMostRecent() {

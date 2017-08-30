@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0E3033B91F4540630061F909 /* WorkoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3033B81F4540630061F909 /* WorkoutViewController.swift */; };
+		0E3068511F56F2B90009CB0D /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3068501F56F2B90009CB0D /* Utility.swift */; };
 		0E345B7E1F3A3EDB001716E4 /* Commute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E345B7D1F3A3EDB001716E4 /* Commute.swift */; };
 		0E345B801F3A4090001716E4 /* DayOfWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E345B7F1F3A4090001716E4 /* DayOfWeek.swift */; };
 		0E42D05E1F3B920F00A7A2FF /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E42D05D1F3B920F00A7A2FF /* CoreDataManager.swift */; };
@@ -25,6 +26,7 @@
 
 /* Begin PBXFileReference section */
 		0E3033B81F4540630061F909 /* WorkoutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkoutViewController.swift; sourceTree = "<group>"; };
+		0E3068501F56F2B90009CB0D /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		0E345B7D1F3A3EDB001716E4 /* Commute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Commute.swift; sourceTree = "<group>"; };
 		0E345B7F1F3A4090001716E4 /* DayOfWeek.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DayOfWeek.swift; sourceTree = "<group>"; };
 		0E42D05D1F3B920F00A7A2FF /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				0ED614531F38F5FD00551D1B /* AverageMyCommute.xcdatamodeld */,
 				0E345B7D1F3A3EDB001716E4 /* Commute.swift */,
 				0E345B7F1F3A4090001716E4 /* DayOfWeek.swift */,
+				0E3068501F56F2B90009CB0D /* Utility.swift */,
 			);
 			path = AverageMyCommute;
 			sourceTree = "<group>";
@@ -214,6 +217,7 @@
 				0E345B7E1F3A3EDB001716E4 /* Commute.swift in Sources */,
 				0E345B801F3A4090001716E4 /* DayOfWeek.swift in Sources */,
 				0ED614641F38F94B00551D1B /* CommuteListTableViewCell.swift in Sources */,
+				0E3068511F56F2B90009CB0D /* Utility.swift in Sources */,
 				0ED614551F38F5FD00551D1B /* AverageMyCommute.xcdatamodeld in Sources */,
 				0E42D05E1F3B920F00A7A2FF /* CoreDataManager.swift in Sources */,
 				0ED614661F38FA3700551D1B /* TableRowFooterAddNew.swift in Sources */,

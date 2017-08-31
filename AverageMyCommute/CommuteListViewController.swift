@@ -36,20 +36,9 @@ class CommuteListViewController: UITableViewController, UIGestureRecognizerDeleg
     
     @IBAction func editButtonPressed(_ sender: Any) {
         
-        //let isEditing : Bool = self.isEditing
-        
         self.isEditing = !self.isEditing
         
         setDoneButtonTitleText()
-
-        //TODO: Ordering for the commute list
-        
-//        if isEditing {
-//            
-//            commuteList = loadCommuteList()
-//            
-//            tableView.reloadData()
-//        }
     }
     
     //When moving away from this page
@@ -196,7 +185,7 @@ class CommuteListViewController: UITableViewController, UIGestureRecognizerDeleg
         // Set's the height for the footer cell
         return CGFloat(64)
     }
-
+    
     // This method gets called for our Gesture Recognizer
     func cellLongPressed(_ gestureRecognizer:UIGestureRecognizer) {
         
@@ -204,6 +193,7 @@ class CommuteListViewController: UITableViewController, UIGestureRecognizerDeleg
         if (gestureRecognizer.state == UIGestureRecognizerState.began){
             
             self.isEditing = true
+            setDoneButtonTitleText()
         }
     }
     
@@ -231,6 +221,8 @@ class CommuteListViewController: UITableViewController, UIGestureRecognizerDeleg
             commuteList.remove(at: (indexPath as NSIndexPath).row)
             
             appDelegate.coreDataContext.delete(listItem)
+            
+            tableView.reloadData()
         }
     }
     
@@ -238,8 +230,39 @@ class CommuteListViewController: UITableViewController, UIGestureRecognizerDeleg
 
         do {
 
-            return
-                try appDelegate.coreDataContext.fetch(NSFetchRequest(entityName: "Commute"))
+            let originalCommuteList : [Commute] = try appDelegate.coreDataContext.fetch(NSFetchRequest(entityName: "Commute"))
+            
+            let commuteSequence = UserDefaultsManager.commuteSequence as! [String]
+            
+            if commuteSequence.count == 0 {
+                
+                refreshSequence()
+                
+                return originalCommuteList
+            }
+            
+            var sortedCommuteItems = [Commute]()
+            
+            for itemSequence in commuteSequence {
+                
+                if let matchingCommuteItem : Commute = originalCommuteList.filter({(commuteItem : Commute) in
+                    commuteItem.id == itemSequence}).first {
+                    
+                    sortedCommuteItems.append(matchingCommuteItem)
+                }
+            }
+            
+            let unSortedCommuteItems : [Commute] = originalCommuteList.filter({(commuteItem : Commute) in
+                sortedCommuteItems.index(where: {$0.id == commuteItem.id}) == nil})
+            
+            if unSortedCommuteItems.count > 0 {
+                
+                sortedCommuteItems.append(contentsOf: unSortedCommuteItems)
+                
+                refreshSequence()
+            }
+            
+            return sortedCommuteItems
         }
         catch let error as NSError {
 
@@ -247,6 +270,18 @@ class CommuteListViewController: UITableViewController, UIGestureRecognizerDeleg
         }
 
         return [Commute]()
+    }
+    
+    func refreshSequence() {
+
+        var commuteSequence = [String]()
+        
+        for i in 0 ..< commuteList.count {
+
+            commuteSequence.append(commuteList[i].id!)
+        }
+
+        UserDefaultsManager.commuteSequence = commuteSequence
     }
     
     func setDoneButtonTitleText() {

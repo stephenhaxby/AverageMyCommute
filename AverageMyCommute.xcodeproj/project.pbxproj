@@ -15,6 +15,7 @@
 		0E42D0621F3BA38C00A7A2FF /* CommuteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E42D0611F3BA38C00A7A2FF /* CommuteViewController.swift */; };
 		0E464E9B1F46716000807323 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E464E9A1F46716000807323 /* HealthKit.framework */; };
 		0E464E9D1F46753800807323 /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E464E9C1F46753800807323 /* HealthManager.swift */; };
+		0EAC68B21F58408C00621092 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EAC68B11F58408C00621092 /* UserDefaultsManager.swift */; };
 		0ED6144D1F38F5FD00551D1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED6144C1F38F5FD00551D1B /* AppDelegate.swift */; };
 		0ED6144F1F38F5FD00551D1B /* CommuteListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED6144E1F38F5FD00551D1B /* CommuteListViewController.swift */; };
 		0ED614521F38F5FD00551D1B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0ED614501F38F5FD00551D1B /* Main.storyboard */; };
@@ -34,6 +35,7 @@
 		0E42D0611F3BA38C00A7A2FF /* CommuteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommuteViewController.swift; sourceTree = "<group>"; };
 		0E464E9A1F46716000807323 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		0E464E9C1F46753800807323 /* HealthManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthManager.swift; sourceTree = "<group>"; };
+		0EAC68B11F58408C00621092 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		0ED614491F38F5FD00551D1B /* AverageMyCommute.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AverageMyCommute.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0ED6144C1F38F5FD00551D1B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0ED6144E1F38F5FD00551D1B /* CommuteListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommuteListViewController.swift; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 			children = (
 				0E42D05D1F3B920F00A7A2FF /* CoreDataManager.swift */,
 				0E464E9C1F46753800807323 /* HealthManager.swift */,
+				0EAC68B11F58408C00621092 /* UserDefaultsManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -212,6 +215,7 @@
 				0ED6144F1F38F5FD00551D1B /* CommuteListViewController.swift in Sources */,
 				0E42D0621F3BA38C00A7A2FF /* CommuteViewController.swift in Sources */,
 				0E3033B91F4540630061F909 /* WorkoutViewController.swift in Sources */,
+				0EAC68B21F58408C00621092 /* UserDefaultsManager.swift in Sources */,
 				0ED6144D1F38F5FD00551D1B /* AppDelegate.swift in Sources */,
 				0E464E9D1F46753800807323 /* HealthManager.swift in Sources */,
 				0E345B7E1F3A3EDB001716E4 /* Commute.swift in Sources */,

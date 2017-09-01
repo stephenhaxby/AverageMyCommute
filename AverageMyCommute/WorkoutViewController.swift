@@ -161,32 +161,18 @@ class WorkoutViewController : UIViewController {
                                 
                                 let difference = mostRecentHeartRate - heartRate
                                 var differenceLabel : String = self.getFormattedDoubleFor(value: difference)
-                                
-                                let newHeartRateLabel = NSMutableAttributedString(string: self.heartRateLabel.text!)
-                                
+
                                 if heartRate > mostRecentHeartRate {
-                                    
+
                                     differenceLabel = "  \(differenceLabel)"
-                                    let labelRange = NSRange(location:0,length:differenceLabel.characters.count)
-                                    let differenceAttributedString = NSMutableAttributedString(string: differenceLabel)
-                                    differenceAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.green, range: NSRange(location:0,length:differenceLabel.characters.count))
-                                    differenceAttributedString.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 20.0, weight: UIFontWeightBold), range: labelRange)
                                     
-                                    newHeartRateLabel.append(differenceAttributedString)
-                                    self.heartRateLabel.text = nil
-                                    self.heartRateLabel.attributedText = newHeartRateLabel
+                                    self.append(label: self.heartRateLabel, withDifference: differenceLabel, andColor: UIColor.green)
                                 }
                                 else if heartRate < mostRecentHeartRate {
                                     
                                     differenceLabel = "  +\(differenceLabel)"
-                                    let labelRange = NSRange(location:0,length:differenceLabel.characters.count)
-                                    let differenceAttributedString = NSMutableAttributedString(string: differenceLabel)
-                                    differenceAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.red, range: NSRange(location:0,length:differenceLabel.characters.count))
-                                    differenceAttributedString.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 20.0, weight: UIFontWeightBold), range: labelRange)
                                     
-                                    newHeartRateLabel.append(differenceAttributedString)
-                                    self.heartRateLabel.text = nil
-                                    self.heartRateLabel.attributedText = newHeartRateLabel
+                                    self.append(label: self.heartRateLabel, withDifference: differenceLabel, andColor: UIColor.red)
                                 }
                                 else {
                                     
@@ -218,13 +204,27 @@ class WorkoutViewController : UIViewController {
         })
     }
     
+    func append(label : UILabel, withDifference : String, andColor color : UIColor) {
+        
+        let newLabelText = NSMutableAttributedString(string: label.text!)
+        
+        let labelRange = NSRange(location:0,length:withDifference.characters.count)
+        let differenceAttributedString = NSMutableAttributedString(string: withDifference)
+        differenceAttributedString.addAttribute(NSForegroundColorAttributeName, value: color, range: NSRange(location:0,length:withDifference.characters.count))
+        differenceAttributedString.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 20.0, weight: UIFontWeightBold), range: labelRange)
+        
+        newLabelText.append(differenceAttributedString)
+        label.text = nil
+        label.attributedText = newLabelText
+    }
+    
     func setMostRecentWorkoutHighlightsFor(workOutAverages : WorkOutAverages) {
 
-        setMostRecentLabelColorFor(label: totalCaloriesLabel, withDouble: workOutAverages.calories)
+        setMostRecentLabelColorFor(label: totalCaloriesLabel, withDouble: workOutAverages.calories, invertColor: false)
         
-        setMostRecentLabelColorFor(label: distanceLabel, withDouble: workOutAverages.distance)
+        setMostRecentLabelColorFor(label: distanceLabel, withDouble: workOutAverages.distance, invertColor: false)
         
-        setMostRecentLabelColorFor(label: speedLabel, withDouble: workOutAverages.speed)
+        setMostRecentLabelColorFor(label: speedLabel, withDouble: workOutAverages.speed, invertColor: true)
 
         setMostRecentLabelColorFor(label: totalTimeLabel, withDateComponents: workOutAverages.time)
 
@@ -260,75 +260,45 @@ class WorkoutViewController : UIViewController {
         let differenceDateComponents = getDateComponentsFrom(totalSecondsDuration: abs(Double(difference)), andNumberOfWorkouts: 1)
         var differenceLabel = "\(getFormattedIntFor(value: differenceDateComponents.minute ?? 0)):\(getFormattedIntFor(value: differenceDateComponents.second ?? 0))"
         
-        let newLabel = NSMutableAttributedString(string: label.text!)
-        
         if averageSeconds > mostRecentSeconds {
             
             differenceLabel = "  -\(differenceLabel)"
-            let labelRange = NSRange(location:0,length:differenceLabel.characters.count)
-            let differenceAttributedString = NSMutableAttributedString(string: differenceLabel)
-            differenceAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.green, range: labelRange)
-            //differenceAttributedString.addAttribute(NSFontAttributeName, value: UIFont.withsize(22.0), range: NSRange(location: 0, differenceLabel.characters.count))
-            differenceAttributedString.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 20.0, weight: UIFontWeightBold), range: labelRange)
             
-            newLabel.append(differenceAttributedString)
-            label.text = nil
-            label.attributedText = newLabel
+            append(label: label, withDifference: differenceLabel, andColor: .green)
         }
         else if averageSeconds < mostRecentSeconds {
             
             differenceLabel = "  +\(differenceLabel)"
-            let labelRange = NSRange(location:0,length:differenceLabel.characters.count)
-            let differenceAttributedString = NSMutableAttributedString(string: differenceLabel)
-            differenceAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.red, range: labelRange)
-            differenceAttributedString.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 20.0, weight: UIFontWeightBold), range: labelRange)
-            
-            newLabel.append(differenceAttributedString)
-            label.text = nil
-            label.attributedText = newLabel
+            append(label: label, withDifference: differenceLabel, andColor: .red)
         }
         else {
             
-            self.heartRateLabel.textColor = UIColor.black
+            label.textColor = UIColor.black
         }
     }
     
-    func setMostRecentLabelColorFor(label : UILabel, withDouble value : Double) {
+    func setMostRecentLabelColorFor(label : UILabel, withDouble value : Double, invertColor : Bool) {
         
         if let mostRecentValue : Double = getDoubleFrom(string : label.text!) {
             
             let difference = mostRecentValue - value
             var differenceLabel : String = getFormattedDoubleFor(value: difference)
             
-            let newLabel = NSMutableAttributedString(string: label.text!)
-            
             if value > mostRecentValue {
                 
                 differenceLabel = "  \(differenceLabel)"
-                let labelRange = NSRange(location:0,length:differenceLabel.characters.count)
-                let differenceAttributedString = NSMutableAttributedString(string: differenceLabel)
-                differenceAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.green, range: labelRange)
-                differenceAttributedString.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 20.0, weight: UIFontWeightBold), range: labelRange)
                 
-                newLabel.append(differenceAttributedString)
-                label.text = nil
-                label.attributedText = newLabel
+                append(label: label, withDifference: differenceLabel, andColor: invertColor ? .red : .green)
             }
             else if value < mostRecentValue {
                 
                 differenceLabel = "  +\(differenceLabel)"
-                let labelRange = NSRange(location:0,length:differenceLabel.characters.count)
-                let differenceAttributedString = NSMutableAttributedString(string: differenceLabel)
-                differenceAttributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.red, range: labelRange)
-                differenceAttributedString.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 20.0, weight: UIFontWeightBold), range: labelRange)
                 
-                newLabel.append(differenceAttributedString)
-                label.text = nil
-                label.attributedText = newLabel
+                append(label: label, withDifference: differenceLabel, andColor: invertColor ? .green : .red)
             }
             else {
                 
-                self.heartRateLabel.textColor = UIColor.black
+                label.textColor = UIColor.black
             }
         }
     }

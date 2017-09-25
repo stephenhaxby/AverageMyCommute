@@ -20,19 +20,19 @@ class CommuteListTableViewCell : UITableViewCell {
                 
                 timeEndLabel.text = Utility.timeStringFrom(date : commuteItem.timeEnd! as Date)
                 
-                mondayLabel.textColor = commuteItem.monday ? .black : .red
+                mondayLabel.textColor = commuteItem.monday ? UIColor(displayP3Red: 0.47796821594238281, green: 1, blue: 1, alpha: 1) : .gray
                 
-                tuesdayLabel.textColor = commuteItem.tuesday ? .black : .red
+                tuesdayLabel.textColor = commuteItem.tuesday ? UIColor(displayP3Red: 0.47796821594238281, green: 1, blue: 1, alpha: 1) : .gray
                 
-                wednesdayLabel.textColor = commuteItem.wednesday ? .black : .red
+                wednesdayLabel.textColor = commuteItem.wednesday ? UIColor(displayP3Red: 0.47796821594238281, green: 1, blue: 1, alpha: 1) : .gray
                 
-                thursdayLabel.textColor = commuteItem.thursday ? .black : .red
+                thursdayLabel.textColor = commuteItem.thursday ? UIColor(displayP3Red: 0.47796821594238281, green: 1, blue: 1, alpha: 1) : .gray
                 
-                fridayLabel.textColor = commuteItem.friday ? .black : .red
+                fridayLabel.textColor = commuteItem.friday ? UIColor(displayP3Red: 0.47796821594238281, green: 1, blue: 1, alpha: 1) : .gray
                 
-                saturdayLabel.textColor = commuteItem.saturday ? .black : .red
+                saturdayLabel.textColor = commuteItem.saturday ? UIColor(displayP3Red: 0.47796821594238281, green: 1, blue: 1, alpha: 1) : .gray
 
-                sundayLabel.textColor = commuteItem.sunday ? .black : .red
+                sundayLabel.textColor = commuteItem.sunday ? UIColor(displayP3Red: 0.47796821594238281, green: 1, blue: 1, alpha: 1) : .gray
             }
         }
     }

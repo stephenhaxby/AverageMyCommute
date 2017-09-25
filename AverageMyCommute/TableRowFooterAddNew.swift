@@ -31,7 +31,7 @@ class TableRowFooterAddNew : UITableViewCell {
         self.addGestureRecognizer(selectPress)
     }
     
-    func viewSelected(_ gestureRecognizer:UIGestureRecognizer) {
+    @objc func viewSelected(_ gestureRecognizer:UIGestureRecognizer) {
      
         if (gestureRecognizer.state == UIGestureRecognizerState.ended) {
          

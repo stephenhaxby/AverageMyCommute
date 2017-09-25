@@ -210,8 +210,8 @@ class WorkoutViewController : UIViewController {
         
         let labelRange = NSRange(location:0,length:withDifference.characters.count)
         let differenceAttributedString = NSMutableAttributedString(string: withDifference)
-        differenceAttributedString.addAttribute(NSForegroundColorAttributeName, value: color, range: NSRange(location:0,length:withDifference.characters.count))
-        differenceAttributedString.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 20.0, weight: UIFontWeightBold), range: labelRange)
+        differenceAttributedString.addAttribute(NSAttributedStringKey.foregroundColor, value: color, range: NSRange(location:0,length:withDifference.characters.count))
+        differenceAttributedString.addAttribute(NSAttributedStringKey.font, value: UIFont.systemFont(ofSize: 20.0, weight: UIFont.Weight.bold), range: labelRange)
         
         newLabelText.append(differenceAttributedString)
         label.text = nil

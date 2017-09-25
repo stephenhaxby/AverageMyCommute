@@ -86,6 +86,8 @@ class CommuteListViewController: UITableViewController, UIGestureRecognizerDeleg
         // Get the table cell
         let cell : CommuteListTableViewCell = tableView.dequeueReusableCell(withIdentifier: "CommuteCell")! as! CommuteListTableViewCell
         
+        cell.selectionStyle = .none
+        
         // Setup a Long Press Gesture for each cell, calling the cellLongPressed method
         let longPress: UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(CommuteListViewController.cellLongPressed(_:)))
         longPress.delegate = self
@@ -187,7 +189,7 @@ class CommuteListViewController: UITableViewController, UIGestureRecognizerDeleg
     }
     
     // This method gets called for our Gesture Recognizer
-    func cellLongPressed(_ gestureRecognizer:UIGestureRecognizer) {
+    @objc func cellLongPressed(_ gestureRecognizer:UIGestureRecognizer) {
         
         // If it's the begining of the gesture, set the table to editing mode
         if (gestureRecognizer.state == UIGestureRecognizerState.began){

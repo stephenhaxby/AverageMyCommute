@@ -48,10 +48,13 @@ class CommuteViewController : UIViewController {
     }
     
     var commute : Commute?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
      
+        startTimeDatePicker.setValue(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), forKey: "textColor")
+        endTimeDatePicker.setValue(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1), forKey: "textColor")
+        
         if let commuteToEdit = commute {
             
             addButton.title = buttonTitles.Save.rawValue

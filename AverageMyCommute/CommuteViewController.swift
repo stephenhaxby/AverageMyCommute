@@ -137,8 +137,8 @@ class CommuteViewController : UIViewController {
     
     func save(newCommute : Commute) {
         
-        newCommute.timeStart = startTimeDatePicker.date as NSDate
-        newCommute.timeEnd = endTimeDatePicker.date as NSDate
+        newCommute.timeStart = startTimeDatePicker.date
+        newCommute.timeEnd = endTimeDatePicker.date
         newCommute.monday = monSegmentControl.selectedSegmentIndex == 0
         newCommute.tuesday = tueSegmentControl.selectedSegmentIndex == 0
         newCommute.wednesday = wedSegmentControl.selectedSegmentIndex == 0

@@ -58,6 +58,7 @@ class WorkoutViewController : UIViewController {
         headingDays += (commute!.saturday) ? "Sat " : ""
         headingDays += (commute!.sunday) ? "Sun " : ""
         
+        commuteHeadingDaysLabel.textColor = UIColor(displayP3Red: 0.47796821594238281, green: 1, blue: 1, alpha: 1)
         commuteHeadingDaysLabel.text = headingDays
         
         healthManager.authorizeHealthKit(completion: {
@@ -125,17 +126,6 @@ class WorkoutViewController : UIViewController {
             
                 let mostRecentWorkout : HKWorkout = filteredWorkouts[0]
             
-                // Populate Heart Rate
-                self.getHeartRateFor(workout : mostRecentWorkout) {
-                
-                    (heartRate) -> Void in
-                    
-                        DispatchQueue.main.async(execute: { () -> Void in
-                            
-                            self.heartRateLabel.text = self.getFormattedDoubleFor(value: heartRate)
-                    })
-                }
-            
                 // Populate Workout data
                 DispatchQueue.main.async(execute: { () -> Void in
                     
@@ -143,49 +133,15 @@ class WorkoutViewController : UIViewController {
                     
                     self.populateMostRecent(workoutStats: workoutStats)
                 })
-
+            
                 if filteredWorkouts.count > 1 {
                     
                     filteredWorkouts.removeFirst()
                     
-                    self.getHeartRateFor(workouts : filteredWorkouts) {
-                        
-                        (heartRate) -> Void in
-                        
-                        DispatchQueue.main.async(execute: { () -> Void in
-                            
-                            self.avgHeartRateLabel.text = self.getFormattedDoubleFor(value: heartRate)
-                            
-                            // Comopare to most recent
-                            if let mostRecentHeartRate : Double = self.getDoubleFrom(string: self.heartRateLabel.text!) {
-                                
-                                let difference = mostRecentHeartRate - heartRate
-                                var differenceLabel : String = self.getFormattedDoubleFor(value: difference)
-
-                                if heartRate > mostRecentHeartRate {
-
-                                    differenceLabel = "  \(differenceLabel)"
-                                    
-                                    self.append(label: self.heartRateLabel, withDifference: differenceLabel, andColor: UIColor.green)
-                                }
-                                else if heartRate < mostRecentHeartRate {
-                                    
-                                    differenceLabel = "  +\(differenceLabel)"
-                                    
-                                    self.append(label: self.heartRateLabel, withDifference: differenceLabel, andColor: UIColor.red)
-                                }
-                                else {
-                                    
-                                    self.heartRateLabel.textColor = UIColor.black
-                                }
-                            }
-                        })
-                    }
-                    
                     DispatchQueue.main.async(execute: { () -> Void in
                         
                         let workOutAverages : WorkOutAverages = self.getWorkoutAverages(workouts: filteredWorkouts)
-
+                        
                         self.populate(workoutStats: workOutAverages)
                         
                         // Compare to most recent
@@ -198,10 +154,106 @@ class WorkoutViewController : UIViewController {
                         
                         self.clearAverages()
                     })
+                }
+            
+            
+            
+//            In the case where we've viewed the commute before this label won't be rendered yet when it tries to populate the average difference...
+//            displayHeartRateAverage below will need to take in this heartRate value...
+            
+                // Populate Heart Rate
+                self.getHeartRateFor(workout : mostRecentWorkout) {
+                
+                    (heartRate) -> Void in
                     
-                    //TODO: No Average to show, only show top section results
+                        DispatchQueue.main.async(execute: { () -> Void in
+                            
+                            self.heartRateLabel.text = self.getFormattedDoubleFor(value: heartRate)
+                            
+                            if filteredWorkouts.count > 1 {
+                                
+                                var heartRateFilteredWorkouts = [HKWorkout]()
+                                
+                                // If no last heart rate record exists for this commute, fetch all
+                                if self.commute?.heartRateLastFetch == nil {
+                                    
+                                    heartRateFilteredWorkouts = filteredWorkouts
+                                }
+                                else {
+                                    
+                                    // Filter out all workouts that are less than our last fetch date
+                                    heartRateFilteredWorkouts = filteredWorkouts.filter({
+                                        (workout : HKWorkout) -> Bool in
+                                        
+                                        return workout.startDate >= (self.commute?.heartRateLastFetch!)!
+                                    })
+                                }
+                                
+                                self.commute?.heartRateLastFetch = Date()
+                                
+                                var averageHeartRate = (self.commute?.heartRateAverage == nil)
+                                    ? 0
+                                    : ((self.commute?.heartRateAverage!)?.doubleValue)!
+                                
+                                if heartRateFilteredWorkouts.count > 0 {
+                                    
+                                    self.getHeartRateFor(workouts : heartRateFilteredWorkouts) {
+                                        
+                                        (heartRate) -> Void in
+                                        
+                                        // Calculate the new average heart rate
+                                        averageHeartRate = (averageHeartRate == 0)
+                                            ? heartRate
+                                            : (averageHeartRate + heartRate) / 2
+                                        
+                                        self.commute?.heartRateAverage = NSDecimalNumber.init(value: averageHeartRate)
+                                        
+                                        DispatchQueue.main.async(execute: { () -> Void in
+                                            
+                                            self.displayHeartRateAverage(averageHeartRate: averageHeartRate)
+                                        })
+                                    }
+                                }
+                                else {
+                                    
+                                    DispatchQueue.main.async(execute: { () -> Void in
+                                        
+                                        self.displayHeartRateAverage(averageHeartRate: averageHeartRate)
+                                    })
+                                }
+                            }
+                    })
                 }
         })
+    }
+    
+    func displayHeartRateAverage(averageHeartRate : Double) {
+        
+        avgHeartRateLabel.text = getFormattedDoubleFor(value: averageHeartRate)
+        
+        // Comopare to most recent
+        if let mostRecentHeartRate : Double = getDoubleFrom(string: heartRateLabel.text!) {
+            
+            let difference = mostRecentHeartRate - averageHeartRate
+            var differenceLabel : String = getFormattedDoubleFor(value: difference)
+            
+            if averageHeartRate > mostRecentHeartRate {
+                
+                differenceLabel = "  \(differenceLabel)"
+                
+                append(label: heartRateLabel, withDifference: differenceLabel, andColor: UIColor.green)
+            }
+            else if averageHeartRate < mostRecentHeartRate {
+                
+                differenceLabel = "  +\(differenceLabel)"
+                
+                append(label: heartRateLabel, withDifference: differenceLabel, andColor: UIColor.red)
+            }
+            else {
+                
+                heartRateLabel.textColor = UIColor.black
+            }
+        }
     }
     
     func append(label : UILabel, withDifference : String, andColor color : UIColor) {

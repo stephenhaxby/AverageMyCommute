@@ -233,6 +233,7 @@
                                     <segment title="Mon"/>
                                     <segment title="-"/>
                                 </segments>
+                                <color key="tintColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             </segmentedControl>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ZO4-sw-l3t">
                                 <rect key="frame" x="16" y="442" width="74" height="29"/>
@@ -349,7 +350,7 @@
                                         <color key="textColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.92549019610000005" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Avg. Heart Rate" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="crR-E5-gcX">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Avg. Heart Rate" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="crR-E5-gcX">
                                         <rect key="frame" x="177" y="129" width="125" height="21"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                         <color key="textColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.92549019610000005" alpha="1" colorSpace="calibratedRGB"/>
@@ -467,7 +468,7 @@
                                         <color key="textColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.92549019610000005" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="-" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fge-3g-Txy">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fge-3g-Txy">
                                         <rect key="frame" x="177" y="161" width="9" height="24"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -481,7 +482,7 @@
                                     <constraint firstItem="5H9-Ij-9LC" firstAttribute="top" secondItem="ANQ-uW-fVf" secondAttribute="bottom" constant="11" id="3G2-Kz-U1n"/>
                                     <constraint firstItem="LuU-eY-rVY" firstAttribute="leading" secondItem="ifl-d6-Vi5" secondAttribute="leading" id="3Yg-fZ-XFN"/>
                                     <constraint firstItem="ApE-ag-IYx" firstAttribute="top" secondItem="TP4-CR-ODj" secondAttribute="bottom" constant="11" id="5w7-GO-5bZ"/>
-                                    <constraint firstItem="crR-E5-gcX" firstAttribute="leading" secondItem="ANQ-uW-fVf" secondAttribute="trailing" constant="47" id="7fd-vi-s5w"/>
+                                    <constraint firstItem="crR-E5-gcX" firstAttribute="leading" secondItem="ANQ-uW-fVf" secondAttribute="trailing" constant="39.5" id="7fd-vi-s5w"/>
                                     <constraint firstItem="ifl-d6-Vi5" firstAttribute="top" secondItem="LuU-eY-rVY" secondAttribute="bottom" constant="17" id="7sd-6T-iQs"/>
                                     <constraint firstItem="ApE-ag-IYx" firstAttribute="leading" secondItem="ANQ-uW-fVf" secondAttribute="leading" id="9Sf-p1-UOW"/>
                                     <constraint firstItem="V8u-Aa-fwG" firstAttribute="trailing" secondItem="Qvi-Ay-9TV" secondAttribute="trailing" id="Aet-L3-DY8"/>
